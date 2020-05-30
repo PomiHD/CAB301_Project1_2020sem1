@@ -83,6 +83,7 @@ public class GUI {
                             "\nReturning to main menu.");
                     mainmenu();
                 }
+                break;
             default:
                 System.out.println("Invalid!!!");
                 break;
@@ -168,7 +169,7 @@ public class GUI {
 
         switch (choices_membermenu) {
             case "1" -> {
-                if(movieCollection.root == null)
+                if (movieCollection.root == null)
                     System.out.println("Opps, the movie library is empty now!");
                 else
                     movieCollection.display(movieCollection.root);
