@@ -36,10 +36,8 @@ public class GUI {
         } while (!isValid_Input);
 
         switch (choices_mainmenu) {
-            case "0":
-                System.out.println("exit the program");
-                break;
-            case "1":
+            case "0" -> System.out.println("exit the program");
+            case "1" -> {
                 boolean isName_staff;
                 boolean isPassword_staff;
                 do {
@@ -51,7 +49,6 @@ public class GUI {
                     } else
                         isName_staff = true;
                 } while (!isName_staff);
-
                 do {
                     System.out.println("Please enter your password");
                     String admin_pwd = kb.nextLine();
@@ -62,14 +59,13 @@ public class GUI {
                         isPassword_staff = true;
                 } while (!isPassword_staff);
                 staffMenu();
-                break;
-            case "2":
+            }
+            case "2" -> {
                 System.out.println("Please enter your member name(one word):[given name+surname]");
                 name_member = kb.nextLine();
                 System.out.println("Please enter your password:[4 digits]");
                 String member_pwd = kb.nextLine();
                 isValid_member = false;
-
                 for (Member m : MemberCollection.getMemberList()) {
                     if (m.getName().compareTo(name_member) == 0 && m.getPassword().compareTo(member_pwd) == 0)
                         isValid_member = !isValid_member;
@@ -83,10 +79,8 @@ public class GUI {
                             "\nReturning to main menu.");
                     mainmenu();
                 }
-                break;
-            default:
-                System.out.println("Invalid!!!");
-                break;
+            }
+            default -> System.out.println("Invalid!!!");
         }
     }
 
@@ -120,13 +114,22 @@ public class GUI {
             case "2" -> {
                 String title_toRemove;
                 boolean isExist_title;
+                boolean isExit;
                 do {
+
                     System.out.println("Please enter the movie title:");
                     title_toRemove = kb.nextLine();
+
+
                     if (!movieCollection.find(title_toRemove)) {
                         isExist_title = false;
                         System.out.println("Sorry, we don't have this movie in our library!" +
-                                " Please try to search other movies.");
+                                " Please press [return] key to keep searching other movies." +
+                                "Or press [e] to exit to staff menu");
+                        String option = kb.nextLine();
+                        if (option.equals("e")) {
+                            staffMenu();
+                        }
                     } else
                         isExist_title = true;
                 } while (!isExist_title);
@@ -139,7 +142,12 @@ public class GUI {
                 staffMenu();
             }
             case "4" -> {
-                memberCollection.getPhone();
+
+                if (memberCollection.getMemberList().size() != 1) {
+                    memberCollection.getPhone();
+                } else {
+                    System.out.println("Opps, we don't have any member in member list");
+                }
                 staffMenu();
             }
             default -> System.out.println("invalid");
@@ -214,6 +222,9 @@ public class GUI {
 
                 movieCollection.setTopTen(movieCollection.root);
                 movieCollection.listTopTen();
+                if (movieCollection.root == null) {
+                    System.out.println("Opps, the movie library is empty now! ");
+                }
                 memberMenu();
             }
             case "0" -> mainmenu();
